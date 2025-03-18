@@ -1,30 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="En">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Практика 1</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Form</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width = device-width, inital-scale =0.9">
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<body style="background-color: antiquewhite; font-size: 27px;">
-  <p>Запуск главного экрана с написанными портом и адресом для подключения к серверу. Выделенное красным - это уже сохранённые данные для входа</p>
-  <img src="start.png" alt="start PuTTY">
-  <p>Подключение через Putty с выводом данных о сервере, версии и ядро Линукса - ubuntu, использовании памяти сервера,
-    количества текущих процессов, ipv4 адреса и последним подключением к серверу</p>
-  <img src="enter.png" alt="подключение через Putty">
-  <p>Ping, показывает время задержки передачи данных от сервера к пользователю</p>
-  <img src="1.png" alt="home">
-  <p>A-записи показывает ipv4 адрес доменов и пользователя</p>
-  <img src="2.png" alt="A-записи">
-  <p>MX-записи показывает настройки почтового сервера для имени домена</p>
-  <img src="4.png" alt="MX-записи">
-  <p>Whois показывает владельца сервера и данные о нем </p>
-  <img src="3.png" alt="Whois">
-  <p>"Git clone" клонирует репозиторий с гитхаба на сервер. Команда "ls" показывает, что хранится в директории на
-    выделенном   сервере</p>
-  <img src="clone and ls.png" alt="clone and ls">
-  <p>WinSCP показывает файлы на сервере и на ПК</p>
-  <img src="Win.png" alt="WinSCP" width="1500 px">
-  <p>Команда git pull добавляет изменения на сервер с гитхаба</p>
-  <img src="pull.png" alt="git.pull">
-</body>
+    <body>
+        <div class="container">
+            <h1>Регистрация</h1>
+            <form action="#" method="post">
+                <label for="fio">ФИО</label>
+                <input type="text" id="fio" name="fio" required>
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+                <label for="dob">Дата рождения</label>
+                <input type="date" id="dob" name="dob" required>
+
+                <fieldset>
+                    <legend>Пол:</legend>
+                    <label>
+                        <input type="radio" name="gender" value="male" required> Мужской
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female" required> Женский
+                    </label>
+                </fieldset>
+
+                <label for="languages">Выберите язык программирования:</label>
+                <select id="languages" name="languages" multiple>
+                    <option value="pascal">Pascal</option>
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="php">PHP</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="haskell">Haskell</option>
+                    <option value="clojure">Clojure</option>
+                    <option value="prolog">Prolog</option>
+                    <option value="scala">Scala</option>
+                </select>
+
+                <label for="biography">Биография</label>
+                <textarea id="biography" name="biography" rows="5" required></textarea>
+
+                <label>
+                    <input type="checkbox" name="contract" required> С контрактом ознакомлен(а)
+                </label>
+
+                <button type="submit">Сохранить</button>
+
+            </form>
+        </div>
+    </body>
+</html>
