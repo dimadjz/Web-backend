@@ -13,7 +13,6 @@ try {
 
 $errors = [];
 
-// Валидация полей
 if (empty($_POST['fullname'])) {
     $errors[] = "ФИО обязательно.";
 } elseif (!preg_match("/^[a-zA-Zа-яА-Я\s]{1,150}$/u", $_POST['fullname'])) {
@@ -92,7 +91,7 @@ try {
 }
 
 try {
-    $stmt = $db->query("SELECT a.id, a.first_name, a.last_name, a.patronymic, a.email, GROUP_CONCAT(pl.name SEPARATOR ', ') AS languages 
+    $stmt = $db->query("SELECT a.id, a.first_name, a.last_name, a.patronymic, a.phone, a.email, a.bio, GROUP_CONCAT(pl.name SEPARATOR ', ') AS languages 
                         FROM applications a 
                         LEFT JOIN application_languages al ON a.id = al.application_id 
                         LEFT JOIN programming_languages pl ON al.language_id = pl.id 
@@ -102,14 +101,16 @@ try {
     if (count($applications) > 0) {
         echo "<h2>Список заявок</h2>";
         echo "<table border='1' cellpadding='10' cellspacing='0'>";
-        echo "<tr><th>ID</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Email</th><th>Языки</th></tr>";
+        echo "<tr><th>ID</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Телефон</th><th>Email</th><th>Биография</th><th>Языки</th></tr>";
         foreach ($applications as $app) {
             echo "<tr>";
             echo "<td>{$app['id']}</td>";
             echo "<td>{$app['last_name']}</td>";
             echo "<td>{$app['first_name']}</td>";
             echo "<td>{$app['patronymic']}</td>";
+            echo "<td>{$app['phone']}</td>";
             echo "<td>{$app['email']}</td>";
+            echo "<td>" . nl2br(htmlspecialchars($app['bio'])) . "</td>";
             echo "<td>{$app['languages']}</td>";
             echo "</tr>";
         }
