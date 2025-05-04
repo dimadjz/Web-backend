@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение банковских и МФО процентов</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .calculator {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .monthly-payments {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .payment-block {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .payment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .payment-amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .bank-payment .payment-amount {
+            color: #27ae60;
+        }
+        
+        .mfo-payment .payment-amount {
+            color: #e74c3c;
+        }
+        
+        .equal-payment .payment-amount {
+            color: #3498db;
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .difference {
+            font-weight: bold;
+        }
+        
+        .positive {
+            color: #27ae60;
+        }
+        
+        .negative {
+            color: #e74c3c;
+        }
+        
+        .equal {
+            color: #3498db;
+        }
+        
+        .summary {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #eee;
+            border-radius: 5px 5px 0 0;
+            margin-right: 
+            5px;
+        }
+        
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .calculator {
+                padding: 15px;
+            }
+            
+            .monthly-payments {
+                flex-direction: column;
+            }
+            
+            .payment-block {
+                min-width: 100%;
+                margin: 5px 0;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-right: 0;
+                margin-bottom: 5px;
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Сравнение банковских и МФО процентов</h1>
+    
+    <div class="calculator">
+        <div class="form-group">
+            <label for="amount">Сумма займа (руб):</label>
+            <input type="number" id="amount" min="1000" value="100000" step="1000">
+        </div>
+        
+        <div class="form-group">
+            <label for="bank-rate">Годовая ставка в банке (%):</label>
+            <input type="number" id="bank-rate" min="1" max="50" value="15" step="0.1">
+            <div class="info-note">Рассчитывается по аннуитетной схеме</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="mfo-rate">Дневная ставка в МФО (%):</label>
+            <input type="number" id="mfo-rate" min="0.1" max="10" value="1" step="0.1">
+            <div class="info-note">Начисляется ежедневно на остаток долга</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="term">Срок (дней):</label>
+            <input type="number" id="term" min="1" max="365" value="30" step="1">
+            <div class="info-note">Максимальный срок для МФО обычно 30-365 дней</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="monthly-payment">Ежемесячный платёж (руб):</label>
+            <input type="number" id="monthly-payment" min="1000" value="10000" step="1000">
+            <div class="info-note">Сумма, которую вы готовы платить ежемесячно</div>
+        </div>
+        
+        <button id="calculate">Рассчитать</button>
+    </div>
+    
+    <div class="results" id="results" style="display: none;">
+        <h2>Результаты сравнения</h2>
+        
+        <div class="monthly-payments">
+            <div class="payment-block bank-payment" id="bank-payment-block">
+                <div class="payment-title">Общий платёж (Банк)</div>
+                <div class="payment-amount" id="bank-monthly-payment"></div>
+            </div>
+            
+            <div class="payment-block mfo-payment" id="mfo-payment-block">
+                <div class="payment-title">Общий платёж (МФО)</div>
+                <div class="payment-amount" id="mfo-total-payment"></div>
+            </div>
+            
+            <div class="payment-block" id="difference-payment-block">
+                <div class="payment-title">Разница</div>
+                <div class="payment-amount difference" id="payment-difference"></div>
+            </div>
+        </div>
+        
+        <div id="summary" class="summary"></div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="bank">Банковский кредит</div>
+            <div class="tab" data-tab="mfo">Микрозайм</div>
+        </div>
+        
+        <div class="tab-content active" id="bank-tab">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Месяц</th>
+                        <th>Платёж</th>
+                        <th>Проценты</th>
+                        <th>Основной долг</th>
+                        <th>Остаток долга</th>
+                    </
+                </tr>
+            </thead>
+            <tbody id="bank-results-body">
+                <!-- Результаты по банку будут здесь -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="tab-content" id="mfo-tab">
+        <table>
+            <thead>
+                <tr>
+                    <th>День</th>
+                    <th>Остаток долга</th>
+                    <th>Начисленные проценты</th>
+                    <th>Платёж</th>
+                    <th>Общий долг</th>
+                </tr>
+            </thead>
+            <tbody id="mfo-results-body">
+                <!-- Результаты по МФО будут здесь -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('calculate').addEventListener('click', function() {
+        // Получаем введенные данные
+        const amount = parseFloat(document.getElementById('amount').value);
+        const bankRate = parseFloat(document.getElementById('bank-rate').value) / 100;
+        const mfoDailyRate = parseFloat(document.getElementById('mfo-rate').value) / 100;
+        const termDays = parseInt(document.getElementById('term').value);
+        const monthlyPayment = parseFloat(document.getElementById('monthly-payment').value);
+        
+        // Рассчитываем банковский кредит (аннуитетный)
+        const termMonths = Math.ceil(termDays / 30);
+        const bankMonthlyRate = bankRate / 12;
+        const bankTotalPayment = amount * (bankMonthlyRate * Math.pow(1 + bankMonthlyRate, termMonths)) / (Math.pow(1 + bankMonthlyRate, termMonths) - 1);
+        const bankTotal = bankTotalPayment * termMonths;
+        
+        // Генерируем таблицу погашения банковского кредита
+        const bankResultsBody = document.getElementById('bank-results-body');
+        bankResultsBody.innerHTML = '';
+        
+        let bankRemaining = amount;
+        let bankTotalInterest = 0;
+        
+        for (let month = 1; month <= termMonths; month++) {
+            const interest = bankRemaining * bankMonthlyRate;
+            const principal = bankTotalPayment - interest;
+            bankRemaining -= principal;
+            bankTotalInterest += interest;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${month}</td>
+                <td>${formatMoney(bankTotalPayment)}</td>
+                <td>${formatMoney(interest)}</td>
+                <td>${formatMoney(principal)}</td>
+                <td>${formatMoney(Math.max(0, bankRemaining))}</td>
+            `;
+            bankResultsBody.appendChild(row);
+        }
+        
+        // Рассчитываем МФО с ежемесячными платежами
+        const mfoResultsBody = document.getElementById('mfo-results-body');
+        mfoResultsBody.innerHTML = '';
+        
+        let mfoRemaining = amount;
+        let mfoTotalInterest = 0;
+        let dayCounter = 0;
+        let paymentDay = 30; // Платим каждый 30-й день
+        
+        for (let day = 1; day <= termDays; day++) {
+            dayCounter++;
+            const dailyInterest = mfoRemaining * mfoDailyRate;
+            mfoTotalInterest += dailyInterest;
+            mfoRemaining += dailyInterest;
+            
+            // Делаем платеж каждый месяц (30 дней)
+            if (dayCounter >= paymentDay || day === termDays) {
+                const payment = Math.min(monthlyPayment, mfoRemaining);
+                mfoRemaining -= payment;
+                dayCounter = 0;
+                
+                mfoResultsBody.appendChild(createMfoRow(day, mfoRemaining + payment - dailyInterest, dailyInterest, payment, mfoRemaining));
+            } else if (day % 10 === 0 || day === termDays) {
+                // Показываем каждые 10 дней и последний день
+                mfoResultsBody.appendChild(createMfoRow(day, mfoRemaining - dailyInterest, dailyInterest, 0, mfoRemaining));
+            }
+        }
+        
+        const mfoTotal = amount + mfoTotalInterest;
+        const differenceTotal = mfoTotal - bankTotal;
+        
+        // Отображаем результаты
+        document.getElementById('bank-monthly-payment').textContent = formatMoney(bankTotalPayment) + ' руб./мес';
+        document.getElementById('mfo-total-payment').textContent = formatMoney(mfoTotal) + ' руб.';
+        
+        const differenceElement = document.getElementById('payment-difference');
+        differenceElement.textContent = (differenceTotal > 0 ? '+' : '') + formatMoney(differenceTotal) +
+        ' руб.';
+            differenceElement.className = 'payment-amount difference ' + (differenceTotal > 0 ? 'negative' : 'positive');
+            
+            document.getElementById('summary').innerHTML = `
+                <p><strong>Общие выплаты:</strong></p>
+                <p>Банк: ${formatMoney(bankTotal)} руб. за ${termMonths} мес.</p>
+                <p>МФО: ${formatMoney(mfoTotal)} руб. за ${termDays} дн.</p>
+                <p>Эффективная ставка МФО: ${formatMoney((Math.pow(1 + mfoDailyRate, 365) - 1) * 100)}%</p>
+                <p class="difference ${differenceTotal > 0 ? 'negative' : 'positive'}">
+                    Разница: ${formatMoney(Math.abs(differenceTotal))} руб. (${differenceTotal > 0 ? 'Банк выгоднее' : 'МФО выгоднее'})
+                </p>
+            `;
+            
+            document.getElementById('results').style.display = 'block';
+        });
+        
+        // Функция для форматирования денежных значений
+        function formatMoney(num) {
+            return new Intl.NumberFormat('ru-RU', { 
+                style: 'decimal', 
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2 
+            }).format(num);
+        }
+        
+        // Функция для создания строки таблицы МФО
+        function createMfoRow(day, remaining, interest, payment, total) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${day}</td>
+                <td>${formatMoney(remaining)}</td>
+                <td>${formatMoney(interest)}</td>
+                <td>${payment > 0 ? formatMoney(payment) : '-'}</td>
+                <td>${formatMoney(total)}</td>
+            `;
+            return row;
+        }
+        
+        // Переключение вкладок
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab + '-tab').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
