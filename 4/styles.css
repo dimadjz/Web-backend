@@ -89,54 +89,55 @@ button:hover {
 }
 
 .error-messages {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #fff3f3;
+    border-left: 4px solid #ff5252;
     padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #f5c6cb;
+    margin-bottom: 25px;
+    border-radius: 0 4px 4px 0;
 }
 
 .error-messages h3 {
+    color: #ff5252;
     margin-top: 0;
-    margin-bottom: 10px;
+    font-size: 1.1em;
 }
 
 .error-messages ul {
-    margin: 0;
+    margin: 10px 0 0 0;
     padding-left: 20px;
 }
 
 .error-messages li {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
-.success-message {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #c3e6cb;
+.error-message {
+    color: #ff5252;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+    padding-left: 5px;
+    border-left: 2px solid #ff5252;
+}
+
+.has-error label {
+    color: #ff5252;
+    font-weight: bold;
 }
 
 .has-error input,
 .has-error textarea,
 .has-error select {
-    border-color: #dc3545 !important;
+    border-color: #ff5252;
+    background-color: #fff9f9;
 }
 
-.has-error label {
-    color: #dc3545;
-}
-
-.error-message {
-    color: #dc3545;
-    font-size: 14px;
-    margin-top: 5px;
-    display: block;
-}
-
-.has-error label {
-    color: #dc3545;
+.success-message {
+    background-color: #f0fff0;
+    border-left: 4px solid #4caf50;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 0 4px 4px 0;
+    color: #2e7d32;
 }
