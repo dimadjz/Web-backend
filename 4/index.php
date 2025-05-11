@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма регистрации</title>
     <link rel="stylesheet" href="styles.css">
     <?php
+    // Отображение сообщения об успехе
+    if (isset($_COOKIE['form_success'])) {
+        echo '<div class="success-message">'.htmlspecialchars($_COOKIE['form_success']).'</div>';
+        setcookie('form_success', '', time() - 3600, '/');
+    }
+    
     // Получаем ошибки из cookies
     $errors = [];
     if (isset($_COOKIE['form_errors'])) {
         $errors = json_decode($_COOKIE['form_errors'], true);
-        // Удаляем ошибки после использования
         setcookie('form_errors', '', time() - 3600, '/');
     }
     
@@ -38,16 +42,24 @@
     }
     ?>
 </head>
-
 <body>
     <div class="form-container">
         <h2>Форма регистрации</h2>
         
         <?php if (!empty($errors)): ?>
             <div class="error-messages">
-                <?php foreach ($errors as $error): ?>
-                    <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
+                <h3>Ошибки в форме:</h3>
+                <ul>
+                    <?php foreach ($errors as $error): ?>
+                        <?php if (is_array($error)): ?>
+                            <?php foreach ($error as $err): ?>
+                                <li><?php echo htmlspecialchars($err); ?></li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li><?php echo htmlspecialchars($error); ?></li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         <?php endif; ?>
         
@@ -143,5 +155,4 @@
         </form>
     </div>
 </body>
-
 </html>
