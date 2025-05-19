@@ -17,7 +17,7 @@ try {
 function getLangs($db) {
     try {
         $allowed_lang = [];
-        $data = $db->query("SELECT id, name FROM languages")->fetchAll();
+        $data = $db->query("SELECT id, name FROM programming_languages")->fetchAll();
         foreach ($data as $lang) {
             $allowed_lang[$lang['id']] = $lang['name'];
         }
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if (!empty($_SESSION['login'])) {
         try {
-            $stmt = $db->prepare("SELECT a.* FROM application a JOIN users u ON a.id = u.application_id WHERE u.login = ?");
+            $stmt = $db->prepare("SELECT a.* FROM applications a JOIN users u ON a.id = u.application_id WHERE u.login = ?");
             $stmt->execute([$_SESSION['login']]);
             $application = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if (!empty($_SESSION['login'])) {
-            $stmt = $db->prepare("UPDATE application SET first_name = ?, last_name = ?, patronymic = ?, phone = ?, email = ?, dob = ?, gender = ?, bio = ? WHERE id = (SELECT application_id FROM users WHERE login = ?)");
+            $stmt = $db->prepare("UPDATE applications SET first_name = ?, last_name = ?, patronymic = ?, phone = ?, email = ?, dob = ?, gender = ?, bio = ? WHERE id = (SELECT application_id FROM users WHERE login = ?)");
             $stmt->execute([$first_name, $last_name, $patronymic, $phone, $email, $dob, $gender, $bio, $_SESSION['login']]);
 
             $stmt = $db->prepare("SELECT application_id FROM users WHERE login = ?");
@@ -280,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt_insert->execute([$application_id, $language_id]);
             }
         } else {
-            $stmt = $db->prepare("INSERT INTO application (first_name, last_name, patronymic, phone, email, dob, gender, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $db->prepare("INSERT INTO applications (first_name, last_name, patronymic, phone, email, dob, gender, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$first_name, $last_name, $patronymic, $phone, $email, $dob, $gender, $bio]);
             $application_id = $db->lastInsertId();
 
