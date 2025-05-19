@@ -2,11 +2,11 @@
 session_start();
 header('Content-Type: text/html; charset=UTF-8');
 
-$user = 'u68763';
-$pass = '7680994';
+$user = 'u68841';
+$pass = '3842702';
 
 try {
-    $db = new PDO('mysql:host=localhost;dbname=u68763', $user, $pass, [
+    $db = new PDO('mysql:host=localhost;dbname=u68841', $user, $pass, [
         PDO::ATTR_PERSISTENT => true,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);

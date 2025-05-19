@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $user = 'u68841';
-$pass = '   ';
+$pass = '3842702';
 
 try {
     $db = new PDO('mysql:host=localhost;dbname=u68841', $user, $pass, [
