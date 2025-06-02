@@ -2,6 +2,7 @@
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     background-color: #EDF5E1; /* Светло-зеленый фон */
+    background-image: url(back_photo.jpg);
     padding: 20px;
     min-height: 100vh;
     line-height: 1.6;
